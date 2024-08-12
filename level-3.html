@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level-3 task 5</title>
+    <title>JSON Placeholder API</title>
+    <style>
+       ul{
+
+        list-style: none;
+        padding: 0;
+        margin: 0;
+       } 
+       li{
+        padding: 10px;
+        border-bottom: 1px solid blueviolet;
+       }
+    </style>
+</head>
+<body>
+    <h1>posts</h1>
+    <ul id="post-list"></ul>
+    <script>
+        const apiUrl = 'https://jsonplaceholder.typicode.com';
+        const postListElement = document.getElementById('post-list');
+
+        async function fetchData(endpoint) {
+            try{
+                const reponse = await fetch(`${apiUrl}/${endpoint}`);
+                const data = await response.json();
+                return data;
+
+            } catch (error) {
+                console.error(`Error fetching data: ${error}`);
+            }
+        }
+
+        fetchData('posts')
+        .then(data => {
+            data.forEach(post => {
+                const postElement = document.createElement('li');
+                postElement.innerHTML = `
+                <h2> ${post.title}</h2>
+                <p>${post.body}</p>
+                <button data-post-id="${post.id}">View Comments </button>
+                `;
+                postListElement.appendChild(postElement);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    </script>
+</body>
+</html>
